@@ -1,0 +1,63 @@
+<html ng-app="templateApp">
+<head>
+    <meta charset="UTF-8">
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("templateApp", []).
+        controller("mainCtrl", function($scope){
+            $scope.bbb = "lee";
+            $scope.ccc = "chang";
+            $scope.ddd = "yong";
+            $scope.name = "king";
+            $scope.likeFunction = function(star){
+                return "hello " + star + "!@!@!@!@";
+            };
+            $scope.ppp = "bye world";
+        }).
+        directive("hello", function($log){
+            return {
+                replace : true,
+                transclude : true,
+                restrict : "EA",
+                scope : {
+                    aaa : "@ccc",
+                    qqq : "@ddd",
+                    bbb : "&like",
+                    fff : "=mmm"
+                },
+                controller : function($scope, $element, $attrs, $transclude){
+                    //$log.log($element);
+                    $scope.name = "Lich";
+                    $log.log($transclude);
+                },
+                templateUrl : "template01.html",
+                /*link : {
+                    pre : function(scope, element, attrs, controller){
+                        element.html("<h1>bye</h1>");
+                    },
+                    post : function(scope, element, attrs, controller, transcludeFn){
+                        $log.log(scope);
+                        $log.log(controller);
+                        $log.log(transcludeFn);
+                        element.html("<h1>hello " +attrs.name+ "</h1>");
+                    }
+                }*/
+                compile : function(element, attrs){
+                    return {
+                        pre : function(scope, element, attrs, controller){
+                            //element.html("<h1>bye</h1>");
+                        },
+                        post : function(scope, element, attrs, controller, transcludeFn){
+                            //scope.name = attrs.name;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body ng-controller="mainCtrl">
+    <div hello name="changyong"></div>
+    <hello name="Abc" like="likeFunction(star)" ppp="yyy">
+</body>
+</html>
