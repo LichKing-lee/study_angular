@@ -1,0 +1,22 @@
+<html ng-app="sampleApp">
+<head>
+    <meta charset="UTF-8">
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("sampleApp", []).
+                controller("mainCtrl", function(){
+
+        }).
+        directive("hello", function($log){
+            return function(scope, iElement, iAttrs, controller){
+                $log.log(scope);
+                $log.log(controller);
+                iElement.html("<h1>hello " +iAttrs.name+ "</h1>");
+            }
+        });
+    </script>
+</head>
+<body ng-controller="mainCtrl">
+    <div hello name="changyong"></div>
+</body>
+</html>

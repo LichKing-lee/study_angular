@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/mustache.js/mustache.js"></script>
+    <script>
+        $(function(){
+            var menuList = [
+                new Item(1, '샌드위치', 2000, 0),
+                new Item(2, '아메리카노', 1000, 0),
+                new Item(3, '카푸치노', 1500, 0)
+            ];
+
+            var menuListTpl = $("#menuListTpl").html();
+            var invoiceTpl = $("#invoiceTpl").html();
+
+            var menuListHtml = Mustache.render(menuListTpl, menuList);
+            var invoiceHtml = Mustache.render(invoiceTpl, {totalPrice : 0});
+
+            var invoiceEl = $("#invoice").html(invoiceHtml);
+            $("#menu-list").html(menuListHtml);
+
+            $("#addContract").on("click", function(){
+                var totalPrice = 0;
+
+                for(var i = menuList.length - 1; i >= 0; i--){
+                    var $itemEl = $("#item-id-" + menuList[i].itemId);
+                    var price = menuList[i].itemPrice;
+                    var count = $itemEl.find(".item-count").val();
+
+                    totalPrice += (price * Number(count));
+                }
+
+                invoiceEl.html(Mustache.render(invoiceTpl, {totalPrice : totalPrice}));
+            });
+        });
+
+        function Item(itemId, itemName, itemPrice, itemCount){
+            this.itemId = itemId;
+            this.itemName = itemName;
+            this.itemPrice = itemPrice;
+            this.itemCount = itemCount;
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>메뉴판</h1>
+        <h2>메뉴목록</h2>
+        <div id="menu-list">
+        </div>
+        <button id="addContract">구매</button>
+        <h2>구입 가격</h2>
+        <div id="invoice">
+        </div>
+    </div>
+
+    <script type="text/template" id="menuListTpl">
+        <table>
+            <thead>
+                <tr>
+                    <th>메뉴</th>
+                    <th>가격</th>
+                    <th>갯수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#.}}
+                <tr id="item-id-{{itemId}}">
+                    <td class="item-name">{{itemName}}</td>
+                    <td class="item-price">{{itemPrice}}</td>
+                    <td><input type="text" class="item-count" value="{{itemCount}}"/></td>
+                </tr>
+                {{/.}}
+            </tbody>
+        </table>
+    </script>
+    <script type="text/template" id="invoiceTpl">
+        가격 : {{totalPrice}}
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="bower_components/qunit/qunit/qunit.css">
+    <script src="bower_components/qunit/qunit/qunit.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="app.js"></script>
+    <script>
+        var injector = angular.injector(['ng', 'MyApp']);
+        var init = {
+            setup : function(){
+                this.$scope = injector.get('$rootScope').$new();
+
+                var controller = injector.get("$controller");
+                controller("mainCtrl", {
+                    $scope : this.$scope
+                });
+            }
+        };
+
+        module("angular test", init);
+        test("test gogo", function(){
+            this.$scope.buy();
+
+            equal(this.$scope.totalPrice, 0, "check");
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+</body>
+</html>

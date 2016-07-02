@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MyApp">
+<head>
+    <meta charset="UTF-8">
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("MyApp", []);
+    </script>
+</head>
+<body ng-init="idol = { name : 'girlGroup', favorite : ['AOA', 'GirlsDay', 'Twice']}">
+    <h1>hello {{idol.name}}</h1>
+    <p>좋아하는 그룹의 수 : {{numberOfFavorite = idol.favorite.length}}</p>
+    <p>그룹의 수 * 100 = {{numberOfFavorite * 100 | currency}}</p>
+    <p>girlGroup이 맞나요? {{idol.name == 'girlGroup'}}</p>
+    <p>좋아하는 그룹의 수가 4개보다 많나요? {{numberOfFavorite > 4}}</p>
+    <p>scope객체에 없는 속성에 접근 ㄱㄱ [{{helloScope}}]</p>
+</body>
+</html>
